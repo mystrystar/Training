@@ -1,0 +1,32 @@
+import boto3
+import datetime
+s3_client = boto3.client("s3")
+dynamodb = boto3.resource("dynamodb")
+table = dynamodb.Table("your Dyano Table Name ")
+
+def lambda_handler(event, context):
+    bucket_name = 'Your Bucket Name'
+    file ="file"+str(datetime.date.today())
+    resp = s3_client.get_object(Bucket=bucket_name,Key=file)
+    data = resp['Body'].read().decode("utf-8")
+    #obj = s3.Object(Bucket=bucket_name,Key=file).get()
+    #data = json.loads(obj['Body'].read())
+    Students = data.split("\n")
+   
+    for friend in Students:
+        #print(friend)
+        friend_data = friend.split(",")
+        # add to dynamodb
+        try:
+            table.put_item(
+                Item = {
+                    "item": friend_data[0],
+                    "Cost_Price": friend_data[1],
+                    "Selling_Price": friend_data[2],
+                    "Profit_Margin": friend_data[3],
+                    "Updated_Quantity": friend_data[4],
+                    "Sales":friend_data[5]
+                }
+            )
+        except Exception as e:
+            print("End of file")
