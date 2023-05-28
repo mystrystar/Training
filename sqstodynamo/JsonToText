@@ -1,0 +1,17 @@
+import boto3
+
+def lambda_handler(event, context):
+    # Extract event details from the input event
+    customer=event['customer']
+    product= event['product']
+    quant=event['quant']
+    # Create an SQS client
+    sqs = boto3.client('sqs')
+    # Specify the URL of your SQS queue
+    queue_url = ''
+    message=f"{customer},{product},{quant}"
+    sqs.send_message(QueueUrl=queue_url, MessageBody=message)
+    return{
+        'statusCode':200,
+        'body':'Message pushed to SQS queue.'
+    }
