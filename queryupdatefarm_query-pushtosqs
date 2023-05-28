@@ -10,7 +10,7 @@ def lambda_handler(event, context):
     # Create an SQS client
     sqs = boto3.client('sqs')
     # Specify the URL of your SQS queue
-    queue_url = 'https://sqs.us-east-1.amazonaws.com/480666725664/farm_sqs_update'
+    queue_url = ''
     
 
     message=f"Hello!\n Customer with name {customer} bought {quant} kg of {product}. "
