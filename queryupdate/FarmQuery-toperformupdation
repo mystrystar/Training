@@ -2,7 +2,7 @@ import json
 import boto3
 from pprint import pprint
 
-table_name = "lamdas3ddb"
+table_name = "YourTableTable"
 dynamodb_resource = boto3.resource("dynamodb")
 users_table = dynamodb_resource.Table(table_name)
 def lambda_handler(event, context):
@@ -23,6 +23,13 @@ def lambda_handler(event, context):
         ReturnValues="UPDATED_NEW",
     )
     pprint(response["Attributes"])
+    return {
+        'statusCode': 200,
+         'customer':customer,
+         'product':product,
+         'quant':quant
+    }
+
     
     response = users_table.update_item(
         Key={ "item" : product
