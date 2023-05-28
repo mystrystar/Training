@@ -1,0 +1,36 @@
+import json
+import boto3
+from pprint import pprint
+
+table_name = "lamdas3ddb"
+dynamodb_resource = boto3.resource("dynamodb")
+users_table = dynamodb_resource.Table(table_name)
+def lambda_handler(event, context):
+    
+    # TODO implement
+    customer=event['customer']
+    product= event['product']
+    quant=event['quant']
+    #invetory update with product(matching key) and quunat current quantity update and sales updat
+    
+    response = users_table.update_item(
+        Key={ "item" : product
+        },
+        UpdateExpression= 'set Current_Quantity = Current_Quantity - :n',
+        ExpressionAttributeValues={
+            ":n": quant,
+        },
+        ReturnValues="UPDATED_NEW",
+    )
+    pprint(response["Attributes"])
+    
+    response = users_table.update_item(
+        Key={ "item" : product
+        },
+         UpdateExpression= 'set Sales = Sales + :n',
+        ExpressionAttributeValues={
+            ":n": quant,
+        },
+        ReturnValues="UPDATED_NEW",
+    )
+    pprint(response["Attributes"])
