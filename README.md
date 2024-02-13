@@ -1,1 +1,1 @@
-# Training
+# StoreInsight
